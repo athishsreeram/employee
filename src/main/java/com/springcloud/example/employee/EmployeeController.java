@@ -1,8 +1,8 @@
 package com.springcloud.example.employee;
 
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
@@ -15,17 +15,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    private Mono<Employee> getEmployeeById(@PathVariable String id) {
+    private Employee getEmployeeById(@PathVariable String id) {
         return employeeRepository.findEmployeeById(id);
     }
 
     @GetMapping
-    private Flux<Employee> getAllEmployees() {
+    private List<Employee> getAllEmployees() {
         return employeeRepository.findAllEmployees();
     }
 
     @PostMapping("/update")
-    private Mono<Employee> updateEmployee(@RequestBody Employee employee) {
+    private Employee updateEmployee(@RequestBody Employee employee) {
         return employeeRepository.updateEmployee(employee);
     }
 

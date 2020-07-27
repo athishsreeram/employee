@@ -1,11 +1,11 @@
 package com.springcloud.example.employee;
 
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepository {
@@ -40,19 +40,19 @@ public class EmployeeRepository {
         employeeAccessData.put("10", "Employee 10 Access Key");
     }
 
-    public Mono<Employee> findEmployeeById(String id) {
-        return Mono.just(employeeData.get(id));
+    public Employee findEmployeeById(String id) {
+        return employeeData.get(id);
     }
 
-    public Flux<Employee> findAllEmployees() {
-        return Flux.fromIterable(employeeData.values());
+    public List<Employee> findAllEmployees() {
+        return employeeData.entrySet().stream().sorted().map(e -> new Employee(e.getKey(), e.getValue().getName())).collect(Collectors.toList());
     }
 
-    public Mono<Employee> updateEmployee(Employee employee) {
+    public Employee updateEmployee(Employee employee) {
         Employee existingEmployee = employeeData.get(employee.getId());
         if (existingEmployee != null) {
             existingEmployee.setName(employee.getName());
         }
-        return Mono.just(existingEmployee);
+        return existingEmployee;
     }
 }
