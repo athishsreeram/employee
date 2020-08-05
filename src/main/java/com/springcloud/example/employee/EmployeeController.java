@@ -16,23 +16,27 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
-    @Cacheable(value="employee",key="#id")
-    @GetMapping("/{id}")
-    private Employee getEmployeeById(@PathVariable String id) {
+    @RequestMapping("/get")
+    private Employee getEmployeeById(@RequestParam String id) {
+        System.out.println("Get Emp Called "+id);
         return employeeRepository.findEmployeeById(id);
     }
 
-    @Cacheable(value="employee")
-    @GetMapping
+    @RequestMapping
+    @ResponseBody
     private List<Employee> getAllEmployees() {
         System.out.println("Called");
 
         return employeeRepository.findAllEmployees();
     }
 
-    @CachePut(value="employee",key="#id")
-    @PostMapping("/update")
-    private Employee updateEmployee(@RequestBody Employee employee) {
+    @RequestMapping("/create")
+    @ResponseBody
+    private Employee create(@RequestParam String id,@RequestParam String name) {
+        System.out.println("Created");
+        Employee employee= new Employee();
+        employee.setId(id);
+        employee.setName(name);
         return employeeRepository.updateEmployee(employee);
     }
 

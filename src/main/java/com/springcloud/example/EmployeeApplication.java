@@ -1,4 +1,4 @@
-package com.springcloud.example.employee;
+package com.springcloud.example;
 
 
 import org.springframework.boot.SpringApplication;

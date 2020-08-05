@@ -1,5 +1,7 @@
 package com.springcloud.example.employee;
 
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -40,7 +42,9 @@ public class EmployeeRepository {
         employeeAccessData.put("10", "Employee 10 Access Key");
     }
 
+    @Cacheable(cacheNames="employee",key="#id")
     public Employee findEmployeeById(String id) {
+        System.out.println("Get Emp Called Service "+id);
         return employeeData.get(id);
     }
 
@@ -48,7 +52,9 @@ public class EmployeeRepository {
         return employeeData.entrySet().stream().sorted().map(e -> new Employee(e.getKey(), e.getValue().getName())).collect(Collectors.toList());
     }
 
+    @CachePut(cacheNames="employee",key="#employee.id")
     public Employee updateEmployee(Employee employee) {
+        System.out.println("Update Emp Called Service "+employee.getId());
         Employee existingEmployee = employeeData.get(employee.getId());
         if (existingEmployee != null) {
             existingEmployee.setName(employee.getName());
