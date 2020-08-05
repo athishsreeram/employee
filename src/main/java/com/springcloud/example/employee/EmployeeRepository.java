@@ -42,7 +42,7 @@ public class EmployeeRepository {
         employeeAccessData.put("10", "Employee 10 Access Key");
     }
 
-    @Cacheable(cacheNames="employee",key="#id")
+    @Cacheable(cacheNames="employee",key="#id",cacheResolver = "cacheResolver")
     public Employee findEmployeeById(String id) {
         System.out.println("Get Emp Called Service "+id);
         return employeeData.get(id);
